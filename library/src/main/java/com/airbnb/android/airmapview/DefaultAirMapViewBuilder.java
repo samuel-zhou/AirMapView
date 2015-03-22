@@ -43,6 +43,8 @@ public class DefaultAirMapViewBuilder {
     public AirMapViewBuilder builder() {
         if (isGooglePlayServicesAvailable)
             return new GoogleNativeAirMapViewBuilder();
+        if (isAmazonMapsAvailable)
+            return new AmazonNativeAirMapViewBuilder();
         return new WebAirMapViewBuilder();
     }
 
