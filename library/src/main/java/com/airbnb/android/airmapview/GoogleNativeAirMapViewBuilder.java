@@ -6,7 +6,7 @@ import com.google.android.gms.maps.GoogleMapOptions;
  * AirMapView map that uses the native Google Maps implementation.
  * IMPORTANT: In order to use this, Google Play Services needs to be installed on the device.
  */
-public class NativeAirMapViewBuilder
+public class GoogleNativeAirMapViewBuilder
         implements AirMapViewBuilder<NativeGoogleMapFragment, AirGoogleMapOptions> {
 
     private AirGoogleMapOptions options;

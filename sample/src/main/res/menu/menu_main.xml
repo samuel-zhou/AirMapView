@@ -4,12 +4,17 @@
       tools:context=".MainActivity">
 
     <item android:id="@+id/action_native_map"
-          android:title="Use Native Map"
+          android:title="Use Google Native Map"
           android:orderInCategory="100"
           app:showAsAction="never"/>
 
     <item android:id="@+id/action_web_map"
           android:title="Use Web Map"
+          android:orderInCategory="100"
+          app:showAsAction="never"/>
+
+    <item android:id="@+id/action_amazon_map"
+          android:title="Use Amazon Native Map"
           android:orderInCategory="100"
           app:showAsAction="never"/>
 

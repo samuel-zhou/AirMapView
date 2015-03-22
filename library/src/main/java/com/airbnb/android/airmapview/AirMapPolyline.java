@@ -2,11 +2,11 @@ package com.airbnb.android.airmapview;
 
 import android.graphics.Color;
 
+import com.amazon.geo.mapsv2.AmazonMap;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +25,8 @@ public class AirMapPolyline<T> {
     private List<LatLng> mPoints;
     private String mTitle;
     private int mStrokeColor;
-    private Polyline mGooglePolyline;
+    private com.google.android.gms.maps.model.Polyline mGooglePolyline;
+    private com.amazon.geo.mapsv2.model.Polyline mAmazonPolyline;
 
     public AirMapPolyline(List<LatLng> points, long id) {
         this(null, points, id);
@@ -88,24 +89,44 @@ public class AirMapPolyline<T> {
      *
      * @param googleMap the {@link GoogleMap} instance to which the polyline will be added
      */
-    public void addToGoogleMap(GoogleMap googleMap) {
+    public void addToMap(GoogleMap googleMap) {
         // add the polyline and keep a reference so it can be removed
-        mGooglePolyline = googleMap.addPolyline(new PolylineOptions()
-                                        .addAll(mPoints)
-                                        .width(mStrokeWidth)
-                                        .color(mStrokeColor));
+        mGooglePolyline = googleMap.addPolyline(new com.google.android.gms.maps.model.PolylineOptions()
+                .addAll(mPoints)
+                .width(mStrokeWidth)
+                .color(mStrokeColor));
+    }
+
+    public void addToMap(AmazonMap amazonMap) {
+        // first convert the LatLng points to Amazon LatLngs
+        List<com.amazon.geo.mapsv2.model.LatLng> points = new ArrayList<>(mPoints.size());
+        for (com.google.android.gms.maps.model.LatLng point : mPoints) {
+            points.add(new com.amazon.geo.mapsv2.model.LatLng(point.latitude, point.longitude));
+        }
+
+        // add the polyline and keep a reference so it can be removed
+        mAmazonPolyline = amazonMap.addPolyline(new com.amazon.geo.mapsv2.model.PolylineOptions()
+                .addAll(points)
+                .width(mStrokeWidth)
+                .color(mStrokeColor));
     }
 
     /**
-     * Remove this polyline from a GoogleMap (if it was added).
+     * Remove this polyline from the map.
      *
-     * @return true if the {@link Polyline} was removed
+     * @return true if the polyline was removed
      */
-    public boolean removeFromGoogleMap() {
+    public boolean removeFromMap() {
         if (mGooglePolyline != null) {
             mGooglePolyline.remove();
             return true;
         }
+
+        if (mAmazonPolyline != null) {
+            mAmazonPolyline.remove();
+            return true;
+        }
+
         return false;
     }
 }

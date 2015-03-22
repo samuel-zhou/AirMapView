@@ -30,6 +30,8 @@
             DISCLAIMER: The Google Maps API Key below is for test purposes, therefore not intended
             to be used in production/real apps. Please DO NOT copy-paste it as it may stop working
             at any moment with no further notice
+
+            Similarly, Amazon maps are using a shared key that also may stop working at any time.
         -->
 
         <meta-data

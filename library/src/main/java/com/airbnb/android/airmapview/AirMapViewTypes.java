@@ -5,5 +5,7 @@ package com.airbnb.android.airmapview;
  * Types are listed in order of preference.
  */
 public enum AirMapViewTypes {
-    NATIVE, WEB
+    GOOGLE_NATIVE,
+    AMAZON_NATIVE,
+    WEB
 }

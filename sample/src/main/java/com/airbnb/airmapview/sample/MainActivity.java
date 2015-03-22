@@ -66,7 +66,9 @@ public class MainActivity extends ActionBarActivity
         AirMapInterface airMapInterface = null;
 
         if (id == R.id.action_native_map) {
-            airMapInterface = mapViewBuilder.builder(AirMapViewTypes.NATIVE).build();
+            airMapInterface = mapViewBuilder.builder(AirMapViewTypes.GOOGLE_NATIVE).build();
+        } else if (id == R.id.action_amazon_map) {
+            airMapInterface = mapViewBuilder.builder(AirMapViewTypes.AMAZON_NATIVE).build();
         } else if (id == R.id.action_web_map) {
             airMapInterface = mapViewBuilder.builder(AirMapViewTypes.WEB).build();
         } else if (id == R.id.action_clear_logs) {

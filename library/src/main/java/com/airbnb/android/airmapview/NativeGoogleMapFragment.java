@@ -79,12 +79,12 @@ public class NativeGoogleMapFragment extends SupportMapFragment implements AirMa
 
     @Override
     public void addMarker(AirMapMarker airMarker) {
-        airMarker.addToGoogleMap(mGoogleMap);
+        airMarker.addToMap(mGoogleMap);
     }
 
     @Override
     public void removeMarker(AirMapMarker marker) {
-        marker.removeFromGoogleMap();
+        marker.removeFromMap();
     }
 
     @Override
@@ -234,12 +234,12 @@ public class NativeGoogleMapFragment extends SupportMapFragment implements AirMa
 
     @Override
     public void addPolyline(AirMapPolyline polyline) {
-        polyline.addToGoogleMap(mGoogleMap);
+        polyline.addToMap(mGoogleMap);
     }
 
     @Override
     public void removePolyline(AirMapPolyline polyline) {
-        polyline.removeFromGoogleMap();
+        polyline.removeFromMap();
     }
 
     /**

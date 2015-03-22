@@ -15,7 +15,7 @@ public class DefaultAirMapViewBuilderTest {
     @Test
     public void shouldReturnNativeAirMapViewByDefault() {
         DefaultAirMapViewBuilder factory = new DefaultAirMapViewBuilder(true);
-        assertThat(factory.builder(), instanceOf(NativeAirMapViewBuilder.class));
+        assertThat(factory.builder(), instanceOf(GoogleNativeAirMapViewBuilder.class));
     }
 
     @Test
@@ -27,14 +27,14 @@ public class DefaultAirMapViewBuilderTest {
     @Test
     public void shouldReturnNativeAirMapViewWhenRequestedExplicitly() {
         DefaultAirMapViewBuilder factory = new DefaultAirMapViewBuilder(true);
-        AirMapViewBuilder builder = factory.builder(AirMapViewTypes.NATIVE);
-        assertThat(builder, instanceOf(NativeAirMapViewBuilder.class));
+        AirMapViewBuilder builder = factory.builder(AirMapViewTypes.GOOGLE_NATIVE);
+        assertThat(builder, instanceOf(GoogleNativeAirMapViewBuilder.class));
     }
 
     @Test(expected=UnsupportedOperationException.class)
     public void shouldThrowWhenRequestedNativeWebViewAndNotSupported() {
         DefaultAirMapViewBuilder factory = new DefaultAirMapViewBuilder(false);
-        factory.builder(AirMapViewTypes.NATIVE);
+        factory.builder(AirMapViewTypes.GOOGLE_NATIVE);
     }
 
     @Test

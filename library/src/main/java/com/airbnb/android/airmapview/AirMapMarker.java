@@ -2,11 +2,9 @@ package com.airbnb.android.airmapview;
 
 import android.text.TextUtils;
 
+import com.amazon.geo.mapsv2.AmazonMap;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * Helper class for keeping record of data needed to
@@ -19,7 +17,8 @@ public class AirMapMarker<T> {
     private LatLng mLatLng;
     private String mTitle;
     private int mIconId;
-    private Marker mGoogleMarker;
+    private com.google.android.gms.maps.model.Marker mGoogleMarker;
+    private com.amazon.geo.mapsv2.model.Marker mAmazonMarker;
 
     public AirMapMarker(LatLng latLng, long id) {
         this(null, latLng, id);
@@ -82,8 +81,8 @@ public class AirMapMarker<T> {
      * @param googleMap the {@link com.google.android.gms.maps.GoogleMap} instance to which the
      *                  marker will be added
      */
-    public void addToGoogleMap(GoogleMap googleMap) {
-        MarkerOptions options = new MarkerOptions();
+    public void addToMap(GoogleMap googleMap) {
+        com.google.android.gms.maps.model.MarkerOptions options = new com.google.android.gms.maps.model.MarkerOptions();
 
         options.position(mLatLng);
 
@@ -92,7 +91,7 @@ public class AirMapMarker<T> {
         }
 
         if (mIconId > 0) {
-            options.icon(BitmapDescriptorFactory.fromResource(mIconId));
+            options.icon(com.google.android.gms.maps.model.BitmapDescriptorFactory.fromResource(mIconId));
         }
 
         // add the marker and keep a reference so it can be removed
@@ -100,13 +99,41 @@ public class AirMapMarker<T> {
     }
 
     /**
-     * Remove this polyline from a GoogleMap (if it was added).
+     * Add this marker to the given {@link com.amazon.geo.mapsv2.AmazonMap instance}
      *
-     * @return true if the {@link com.google.android.gms.maps.model.Polyline} was removed
+     * @param amazonMap the {@link com.amazon.geo.mapsv2.AmazonMap} instance to which the
+     *                  marker will be added
      */
-    public boolean removeFromGoogleMap() {
+    public void addToMap(AmazonMap amazonMap) {
+        com.amazon.geo.mapsv2.model.MarkerOptions options = new com.amazon.geo.mapsv2.model.MarkerOptions();
+
+        options.position(new com.amazon.geo.mapsv2.model.LatLng(mLatLng.latitude, mLatLng.longitude));
+
+        if (!TextUtils.isEmpty(mTitle)) {
+            options.title(mTitle);
+        }
+
+        if (mIconId > 0) {
+            options.icon(com.amazon.geo.mapsv2.model.BitmapDescriptorFactory.fromResource(mIconId));
+        }
+
+        // add the marker and keep a reference so it can be removed
+        mAmazonMarker = amazonMap.addMarker(options);
+    }
+
+    /**
+     * Remove this marker from the map.
+     *
+     * @return true if the marker was removed
+     */
+    public boolean removeFromMap() {
         if (mGoogleMarker != null) {
             mGoogleMarker.remove();
+            return true;
+        }
+
+        if (mAmazonMarker != null) {
+            mAmazonMarker.remove();
             return true;
         }
         return false;
